@@ -1,6 +1,49 @@
 # DB EXAM
 
-**Docker**.
+## Table of Contents
+
+- [TODO](#todo)
+-  [Инициализация базы](#1-инициализация-базы)
+
+
+## 1 Инициализация базы
+```
+	image: postgres:latest
+```
+
+```
+	environment:
+		POSTGRES_DB: db
+		POSTGRES_USER: postgres
+		POSTGRES_PASSWORD: postgres
+```
+
+```
+	environment:
+		-DATABASE_URL=postgresql://postgres:postgres@db:5432/db
+```
+
+```
+	ports:
+		- "5432:5432" 
+```  
+
+
+## 2
+
+## 3
+
+## 4
+
+## 5
+
+## 6
+
+## 7
+
+## 8
+
+## 9
 
 
 # TODO
@@ -28,29 +71,12 @@
 
 9. [ ] **10 баллов** - создать простенький ui
 
-## 1. **написать скрипт инициализации базы** (создание базы данных с определенным именем, установка владельца базы)
-    
-
-## 2
-
-## 3
-
-## 4
-
-## 5
-
-## 6
-
-## 7
-
-## 8
-
-## 9
 
 
 # Templates
+
 **Bold text**
-   
+
 > Note.
 - Bullet points 
 [Link](https://github.com/Miqooo/db_exam)
@@ -61,10 +87,7 @@
 |Row2|
 
 
-## UML diagrams
-
-UML diagrams
-
+### UML diagrams
 ```mermaid
 graph LR
 A[Product] --> B((Product))
