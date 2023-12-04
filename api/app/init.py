@@ -1,6 +1,7 @@
 import os
 import csv
 from sqlmodel import Session, create_engine
+from sqlmodel import SQLModel
 from faker import Faker
 
 from .models import *

@@ -10,6 +10,7 @@
 ```
 	image: postgres:latest
 ```
+указывается образ Docker (PostgreSQL)
 
 ```
 	environment:
@@ -17,17 +18,13 @@
 		POSTGRES_USER: postgres
 		POSTGRES_PASSWORD: postgres
 ```
-
-```
-	environment:
-		-DATABASE_URL=postgresql://postgres:postgres@db:5432/db
-```
+определяются переменные окружения для контейнера PostgreSQL
 
 ```
 	ports:
 		- "5432:5432" 
 ```  
-
+устанавливает порта 5432 между хостовой машиной и контейнером
 
 ## 2
 
