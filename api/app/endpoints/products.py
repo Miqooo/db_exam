@@ -1,23 +1,40 @@
-# from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Request, Form, Query
+from fastapi.responses import JSONResponse
 
-# from typing import List, Optional
-# from sqlmodel import Session
-# from sqlmodel import select
+from typing import List, Dict, Any
 
-# from ..init import engine
-# from ..models import *
+from sqlmodel import Session, select
 
-# router = APIRouter()
+from ..models import *
+from ..init import engine
+from .utils import *
 
-# @router.get("/products/", response_model=List[Product])
-# async def get_companies():
-#     with Session(engine) as session:
-#         products = session.exec(select(Product)).all()
-#         return products
+productRouter = APIRouter()
+
+# GET 
+
+@productRouter.get("/products/", response_model=PaginationModel)
+async def get_products(limit: int = Query(10, gt=0), page: int = Query(1, gt=0)):
+    with Session(engine) as session:
+        results = session.exec(select(Product)).all()
+        return PaginationWrapper(results=results, limit=limit, page=page)
+
+
+# POST 
+
+@productRouter.post("/product", response_model=ResponseModel)
+async def add_product(product: ProductModel):
+    try:
+        # await validate_request(request)
+        
+        with Session(engine) as session:
+            product = Product(product_name=product.product_name, price=product.price, measurement=product.measurement, valid_until=product.valid_until)
+            
+            session.add(product)
+            session.commit()
+            session.refresh(product)
     
-# @router.get("/supplies/", response_model=List[Supplies])
-# async def get_companies():
-#     with Session(engine) as session:
-#         supplies = session.exec(select(Supplies)).all()
-#         return supplies
+        return ResponseModel(error=False, message="success")
     
+    except HTTPException as exc:
+       return ResponseModel(error=True, message=JSONResponse(content=exc.detail, status_code=exc.status_code), code=400)

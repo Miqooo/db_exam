@@ -1,0 +1,5 @@
+// DUMP from docker
+docker exec -i -t postgreSQL-1 pg_dump -c --no-owner postgres > dump_2.sql
+
+// RESTORE from dump file
+docker exec -i postgreSQL-1 psql postgres < dump_2.sql 
