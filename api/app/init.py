@@ -23,49 +23,49 @@ def isTableEmpty(table_model):
         return result is None
 
 
-def fillDatabase(companies_count = 15, products_count=25, supplies_count=10):
-    with Session(engine) as session:
-        if isTableEmpty(Company):
-            companies= readDataList("resources", "companies.csv")
-            activityList = readDataList("resources", "activity_types.csv")
-            for _ in range(companies_count):
+# def fillDatabase(companies_count = 15, products_count=25, supplies_count=10):
+#     with Session(engine) as session:
+#         if isTableEmpty(Company):
+#             companies= readDataList("resources", "companies.csv")
+#             activityList = readDataList("resources", "activity_types.csv")
+#             for _ in range(companies_count):
 
-                name = faker.random_element(companies)
-                companies.remove(name)
+#                 name = faker.random_element(companies)
+#                 companies.remove(name)
 
-                activity_type = faker.random_element(activityList)
-                count_of_workers = faker.random_int(min=5, max=55)
+#                 activity_type = faker.random_element(activityList)
+#                 count_of_workers = faker.random_int(min=5, max=55)
 
-                company = Company(name=name, activity_type=activity_type, count_of_workers=count_of_workers)
-                session.add(company)
-            session.commit()
+#                 company = Company(name=name, activity_type=activity_type, count_of_workers=count_of_workers)
+#                 session.add(company)
+#             session.commit()
 
-        if isTableEmpty(Product):
-            measurements = readDataList("resources", "measurements.csv")
-            productList = readDataList("resources", "products.csv")
-            for _ in range(products_count):
-                product_name = faker.random_element(productList)
-                valid_until = faker.date_this_year(before_today=False, after_today=True)
-                measurement = faker.random_element(measurements)
-                price = faker.random_int(min=5, max=50)
+#         if isTableEmpty(Product):
+#             measurements = readDataList("resources", "measurements.csv")
+#             productList = readDataList("resources", "products.csv")
+#             for _ in range(products_count):
+#                 product_name = faker.random_element(productList)
+#                 valid_until = faker.date_this_year(before_today=False, after_today=True)
+#                 measurement = faker.random_element(measurements)
+#                 price = faker.random_int(min=5, max=50)
 
-                product = Product(product_name=product_name, valid_until=valid_until, measurement=measurement, price=price)
-                session.add(product)
-            session.commit()
+#                 product = Product(product_name=product_name, valid_until=valid_until, measurement=measurement, price=price)
+#                 session.add(product)
+#             session.commit()
 
-        if isTableEmpty(Supplies):
-            for company_id in range(1, companies_count+1):
-                elements = list(range(1, products_count+1))
-                product_ids = faker.random_elements(elements=elements, length=faker.random_int(min=5, max=8))
+#         if isTableEmpty(Supplies):
+#             for company_id in range(1, companies_count+1):
+#                 elements = list(range(1, products_count+1))
+#                 product_ids = faker.random_elements(elements=elements, length=faker.random_int(min=5, max=8))
 
-                for product_id in product_ids:
-                    date = faker.date_this_year(before_today=False, after_today=True)
-                    size = faker.random_int(min=10, max=100)
-                    price = faker.random_int(min=2, max=100)
+#                 for product_id in product_ids:
+#                     date = faker.date_this_year(before_today=False, after_today=True)
+#                     size = faker.random_int(min=10, max=100)
+#                     price = faker.random_int(min=2, max=100)
 
-                    supply = Supplies(company_id = company_id, product_id=product_id, date=date, size=size, price=price)
-                    session.add(supply)
-            session.commit()
+#                     supply = Supplies(company_id = company_id, product_id=product_id, date=date, size=size, price=price)
+#                     session.add(supply)
+#             session.commit()
 
 def readDataList(dir, filename):
     file_path = os.path.join(os.path.dirname(__file__), dir, filename)

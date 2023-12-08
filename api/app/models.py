@@ -9,25 +9,11 @@ class CompanyModel(BaseModel):
    activity_type: str = Field("Finance")
    count_of_workers: int = Field(1)
 
-class Company(SQLModel, table=True):
-   company_id: int = Field(primary_key=True)
-   name: str
-   activity_type: str
-   count_of_workers: int
-
-
 class ProductModel(BaseModel):
    product_name: str
    valid_until: Optional[datetime] = Field(default=None)
    measurement: str = Field("piece")
    price: int = Field(0)
-
-class Product(SQLModel, table=True):
-   product_id: int = Field(primary_key=True)
-   product_name: str
-   valid_until: Optional[datetime]
-   measurement: str
-   price: int
 
 class SuppliesModel(BaseModel):
    company_id: int
@@ -35,6 +21,19 @@ class SuppliesModel(BaseModel):
    date: Optional[datetime]
    size: int = Field(default=1)
    price: int = Field(default=0)
+   
+class Company(SQLModel, table=True):
+   company_id: int = Field(primary_key=True)
+   name: str
+   activity_type: str
+   count_of_workers: int
+
+class Product(SQLModel, table=True):
+   product_id: int = Field(primary_key=True)
+   product_name: str
+   valid_until: Optional[datetime]
+   measurement: str
+   price: int
 
 class Supplies(SQLModel, table=True):
    supply_id: int = Field(primary_key=True)
@@ -46,6 +45,4 @@ class Supplies(SQLModel, table=True):
 
    product: Optional[List[Product]] = Relationship()
    company: Optional[List[Company]] = Relationship()
-
-
 

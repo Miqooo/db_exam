@@ -3,7 +3,8 @@ from fastapi.responses import JSONResponse
 
 from typing import List, Dict, Any
 
-from sqlmodel import Session, select
+from sqlmodel import Session
+from sqlmodel import select
 
 from ..models import *
 from ..init import engine

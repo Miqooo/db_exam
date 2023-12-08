@@ -15,7 +15,7 @@ app.include_router(supplyRouter)
 async def startup_event():
     print("Running startup code")
     initDatabase()
-    #fillDatabase()
+    # fillDatabase()
 
 @app.get("/")
 async def root():

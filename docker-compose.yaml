@@ -21,6 +21,8 @@ services:
   api:
     build:
       context: ./api
+    
+    container_name: api
     ports:
       - "5001:5001"
     depends_on:
