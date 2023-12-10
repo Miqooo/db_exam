@@ -60,24 +60,70 @@ services:
 `/products&limit={limit_number}&page={page_number}&order_by={field_name}&asc={True|False}`
 `/companies&...`
 `/supplies&...`
+
 возвращает продукты/компании/поставки, сортируя их по указанному полю, с пагинацией и возможностью изменения порядка сортировки
+
 
 `/products/{product_id}` 
 `/companies/{company_id}` 
 `/supply/{supply_id}` 
+
 возвращает продукт/компанию/поставку по ID
 
+
 `/companies/total` 
- возвращает компании со всеми продуктами и общей суммой продаж
+
+возвращает компании со всеми продуктами и общей суммой продаж
   
 
 ## 6. ~ pg_trgm + GIN ~
 
 ## 7. использование ORM
-  
 
+```
+class Company(SQLModel, table=True):
+	company_id: int = Field(primary_key=True)
+	name: str
+	activity_type: str
+	count_of_workers: int
+
+class Product(SQLModel, table=True):
+	product_id: int = Field(primary_key=True)
+	product_name: str
+	valid_until: Optional[datetime]
+	measurement: str
+	price: int
+
+class Supplies(SQLModel, table=True):
+	supply_id: int = Field(primary_key=True)
+	company_id: int = Field(foreign_key="company.company_id")
+	product_id: int = Field(foreign_key="product.product_id")
+	date: Optional[datetime]
+	size: int
+	price: int
+```
+
+  
 ## 8. использование пагинации
 
+```
+def pagination_wrapper(results, limit: int, page: int):
+	total = len(results)
+	start = (page - 1) * limit
+	end = start + limit
+	paginated_results = results[start:end]
+	return PaginationModel[T](
+		limit=limit,
+		page=page,
+		results=paginated_results,
+		total=total
+	)
+```
+`result` - лист всех элементов						
+`limit` - максимальное число элементов на одной странице
+`page` - номер страницы
+
+`return` - возращает пагинированные элементы
   
 
 ## 9. ~ создать простенький ui ~
