@@ -4,17 +4,21 @@ import csv
 import os
 
 import argparse
+import test_company as test_company
+import test_products as test_products
+import test_supplies as test_supplies
 
 from faker import Faker
 from api_service import *
 
+
 faker = Faker()
 
-host = "http://0.0.0.0:5001/"
+host = "http://localhost:5001/"
 
-def fillDatabase(companies_count = 7, products_count=50, supplies_count=6):
-    companies = readDataList("resources", "companies.csv")
-    activityList = readDataList("resources", "activity_types.csv")
+def fill_database(companies_count = 7, products_count=50, supplies_count=6):
+    companies = read_data_list("resources", "companies.csv")
+    activityList = read_data_list("resources", "activity_types.csv")
     for _ in range(companies_count):
         name = faker.random_element(companies)
         companies.remove(name)
@@ -28,8 +32,8 @@ def fillDatabase(companies_count = 7, products_count=50, supplies_count=6):
         POST(host=host, endpoint="company", data=company)
         
 
-    measurements = readDataList("resources", "measurements.csv")
-    productList = readDataList("resources", "products.csv")
+    measurements = read_data_list("resources", "measurements.csv")
+    productList = read_data_list("resources", "products.csv")
     for _ in range(products_count):
         product_name = faker.random_element(productList)
         valid_until = faker.date_this_year(before_today=False, after_today=True)
@@ -62,8 +66,7 @@ def fillDatabase(companies_count = 7, products_count=50, supplies_count=6):
             }
             POST(host=host, endpoint="supply", data=supply)
 
-
-def readDataList(dir, filename):
+def read_data_list(dir, filename):
     file_path = os.path.join(os.path.dirname(__file__), dir, filename)
 
     data = []
@@ -76,6 +79,12 @@ def readDataList(dir, filename):
 
     return data
 
+def test_GET():
+    endpoint = "supply/1"
+    params = {"limit": 100}
+    GET(host=host, endpoint=endpoint, params=params)
+
+
 
 def main():
     parser = argparse.ArgumentParser(description="API utility.")
@@ -83,24 +92,24 @@ def main():
     subparsers = parser.add_subparsers(dest='command')
     
     fill_parser = subparsers.add_parser('fill', help='Fill the database with random data')
-    
-    post_parser = subparsers.add_parser('post', help='Make a POST request to a specified endpoint')
-    post_parser.add_argument('-e', '--endpoint', type=str, required=True, help='API endpoint for the POST request')
-    post_parser.add_argument('data', type=json.loads, help='JSON data to POST to the endpoint')
-    
-    # Sub-parser for GET requests
-    get_parser = subparsers.add_parser('get', help='Make a GET request to a specified endpoint')
-    get_parser.add_argument('-e', '--endpoint', type=str, required=True, help='API endpoint for the GET request')
-    get_parser.add_argument('-p', '--params', nargs='*', type=json.loads, default=[], help='Query parameters as an array of JSON strings')
-    
+    post_parser = subparsers.add_parser('company', help='')
+    get_parser = subparsers.add_parser('product', help='')
+    get_parser = subparsers.add_parser('supplies', help='')
+
     args = parser.parse_args()
 
     if args.command == 'fill':
-        fillDatabase()
-    elif args.command == 'post':
-        POST(host=host, endpoint=args.endpoint, data=args.data)
-    elif args.command == 'get':
-        GET(host=host, endpoint=args.endpoint, params=args.params)
+        fill_database()
+    elif args.command == 'company':
+        test_company.run()
+
+    elif args.command == 'product':
+        test_products.run()
+
+    elif args.command == 'supplies':
+        test_supplies.run()
+        pass
+
     else:
         parser.print_help()
 

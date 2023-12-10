@@ -18,7 +18,7 @@ class ProductModel(BaseModel):
 class SuppliesModel(BaseModel):
    company_id: int
    product_id: int
-   date: Optional[datetime]
+   date: Optional[datetime] = Field(default=None)
    size: int = Field(default=1)
    price: int = Field(default=0)
    
@@ -45,4 +45,6 @@ class Supplies(SQLModel, table=True):
 
    product: Optional[List[Product]] = Relationship()
    company: Optional[List[Company]] = Relationship()
+
+
 

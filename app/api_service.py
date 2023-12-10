@@ -1,25 +1,55 @@
 import requests
 import json
 
+
+api_host = "http://localhost:5001"
+
+def print_delimiter():
+    print("\n" + "=" * 50)
+
+def print_success_or_error(response_json):
+    if ("error" not in response_json or response_json["error"] == True) and "results" not in response_json:
+        print("❌ Error in response:")
+
+    else:
+        print("✅ Success! Response:")
+
+def GET(host, endpoint, query_params):
+    url = host + endpoint
+    response = requests.get(url, params=query_params)
+    response_json = json.loads(response.text)
+    
+    if ("error" not in response_json or response_json["error"] == True) and "results" not in response_json:
+        print("url: ", url, "\n", query_params)
+
+    return response_json
+
 def POST(host, endpoint, data):
     url = host + endpoint
     response = requests.post(url, json = data)
+    response_json = json.loads(response.text)
 
-    responseJson = json.loads(response.text)
-    if "error" not in responseJson or responseJson["error"] == True:
-        print("data: ", json.dumps(data, indent=4))
-        print("response: ", json.dumps(responseJson, indent=4))
-    else:
-        print("success")
+    if ("error" not in response_json or response_json["error"] == True) and "results" not in response_json:
+        print("url: ", url, "\n", data)
+
+    return response_json 
     
-
-def GET(host, endpoint, queryParams):
+def PUT(host, endpoint, data):
     url = host + endpoint
-    response = requests.get(url, params=queryParams)
-    responseJson = json.loads(response.text)
-    
-    if "error" not in responseJson or responseJson["error"] == True:
-        print("url: ", url, " | ", queryParams)
-    
-    print("response: ", json.dumps(responseJson, indent=4))
+    response = requests.put(url, json = data)
+    response_json = json.loads(response.text)
+
+    if ("error" not in response_json or response_json["error"] == True) and "results" not in response_json:
+        print("url: ", url, "\n", data)
+
+    return response_json
         
+def DELET(host, endpoint, data = None):
+    url = host + endpoint
+    response = requests.delete(url, json = data)
+    response_json = json.loads(response.text)
+
+    if ("error" not in response_json or response_json["error"] == True) and "results" not in response_json:
+        print("url: ", url, "\n", data)
+
+    return response_json

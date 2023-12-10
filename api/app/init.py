@@ -14,20 +14,20 @@ engine = create_engine(DATABASE_URL)
 
 faker = Faker()
 
-def initDatabase():
+def init_database():
     SQLModel.metadata.create_all(engine)
 
-def isTableEmpty(table_model):
+def is_table_empty(table_model):
     with Session(engine) as session:
         result = session.exec(select(table_model)).first()
         return result is None
 
 
-# def fillDatabase(companies_count = 15, products_count=25, supplies_count=10):
+# def fill_database(companies_count = 15, products_count=25, supplies_count=10):
 #     with Session(engine) as session:
-#         if isTableEmpty(Company):
-#             companies= readDataList("resources", "companies.csv")
-#             activityList = readDataList("resources", "activity_types.csv")
+#         if is_table_empty(Company):
+#             companies= read_data_list("resources", "companies.csv")
+#             activityList = read_data_list("resources", "activity_types.csv")
 #             for _ in range(companies_count):
 
 #                 name = faker.random_element(companies)
@@ -40,9 +40,9 @@ def isTableEmpty(table_model):
 #                 session.add(company)
 #             session.commit()
 
-#         if isTableEmpty(Product):
-#             measurements = readDataList("resources", "measurements.csv")
-#             productList = readDataList("resources", "products.csv")
+#         if is_table_empty(Product):
+#             measurements = read_data_list("resources", "measurements.csv")
+#             productList = read_data_list("resources", "products.csv")
 #             for _ in range(products_count):
 #                 product_name = faker.random_element(productList)
 #                 valid_until = faker.date_this_year(before_today=False, after_today=True)
@@ -53,7 +53,7 @@ def isTableEmpty(table_model):
 #                 session.add(product)
 #             session.commit()
 
-#         if isTableEmpty(Supplies):
+#         if is_table_empty(Supplies):
 #             for company_id in range(1, companies_count+1):
 #                 elements = list(range(1, products_count+1))
 #                 product_ids = faker.random_elements(elements=elements, length=faker.random_int(min=5, max=8))
@@ -67,7 +67,7 @@ def isTableEmpty(table_model):
 #                     session.add(supply)
 #             session.commit()
 
-def readDataList(dir, filename):
+def read_data_list(dir, filename):
     file_path = os.path.join(os.path.dirname(__file__), dir, filename)
 
     data = []

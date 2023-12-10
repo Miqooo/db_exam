@@ -21,7 +21,7 @@ class PaginationModel(BaseModel, Generic[T]):
     results: List[T]
     total: int
 
-def PaginationWrapper(results, limit: int, page: int):
+def pagination_wrapper(results, limit: int, page: int):
     total = len(results)
     start = (page - 1) * limit
     end = start + limit

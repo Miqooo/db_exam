@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI
 from .endpoints.companies import companyRouter
 from .endpoints.products import productRouter
-from .endpoints.sipplies import supplyRouter
+from .endpoints.supplies import supplyRouter
 
 from .models import *
 from .init import *
@@ -14,7 +14,7 @@ app.include_router(supplyRouter)
 @app.on_event("startup")
 async def startup_event():
     print("Running startup code")
-    initDatabase()
+    init_database()
     # fillDatabase()
 
 @app.get("/")
