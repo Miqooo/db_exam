@@ -79,13 +79,6 @@ def read_data_list(dir, filename):
 
     return data
 
-def test_GET():
-    endpoint = "supply/1"
-    params = {"limit": 100}
-    GET(host=host, endpoint=endpoint, params=params)
-
-
-
 def main():
     parser = argparse.ArgumentParser(description="API utility.")
     
