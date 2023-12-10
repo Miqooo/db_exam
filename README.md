@@ -118,9 +118,12 @@ def pagination_wrapper(results, limit: int, page: int):
 		total=total
 	)
 ```
-`result` - лист всех элементов						
+`result` - лист всех элементов
+
 `limit` - максимальное число элементов на одной странице
+
 `page` - номер страницы
+
 
 `return` - возращает пагинированные элементы
   
